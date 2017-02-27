@@ -1,8 +1,11 @@
 /* jshint esnext: true */
-var monitor = (elem, selector, callback) => {
+const monitor = (elem, selector, callback) => {
     if (elem === undefined || selector === undefined) return;
-    if (elem.constructor === Array) {
+    if (elem !== null && elem.forEach !== undefined && elem.forEach.constructor === Function) {
         elem.forEach(e => monitor(e, selector, callback));
+        return;
+    } else if (elem !== null && elem.each !== undefined && elem.each.constructor === Function) {
+        elem.each((i, e) => monitor(e, selector, callback));
         return;
     } else if (!(elem instanceof Node))
         return;
